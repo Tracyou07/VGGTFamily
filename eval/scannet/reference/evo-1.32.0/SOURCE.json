@@ -1,0 +1,21 @@
+{
+  "project": "evo",
+  "version": "1.32.0",
+  "upstream_url": "https://github.com/MichaelGrupp/evo/tree/v1.32.0",
+  "purpose": "Independent test oracle for protocol fastvggt_scannet_evo132; these files are never imported by production code.",
+  "license": "GPL-3.0-or-later",
+  "files": {
+    "main_ape.py": {
+      "url": "https://raw.githubusercontent.com/MichaelGrupp/evo/v1.32.0/evo/main_ape.py",
+      "sha256": "02dbc6c31b1c28a2dc2fd5265a17f604aac8089fb4aac76dedbb89f4c311c406"
+    },
+    "main_rpe.py": {
+      "url": "https://raw.githubusercontent.com/MichaelGrupp/evo/v1.32.0/evo/main_rpe.py",
+      "sha256": "93f0a7ec93024f09f243db4e117847ae7ad54248f8d9cbf264e28bccbb247536"
+    },
+    "LICENSE": {
+      "url": "https://raw.githubusercontent.com/MichaelGrupp/evo/v1.32.0/LICENSE",
+      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+    }
+  }
+}

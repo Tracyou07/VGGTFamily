@@ -1,0 +1,12 @@
+Scene01/Clone
+Scene01/Fog
+Scene01/Morning
+Scene01/Overcast
+Scene01/Rain
+Scene01/Sunset
+Scene02/Clone
+Scene02/Fog
+Scene02/Morning
+Scene02/Overcast
+Scene02/Rain
+Scene02/Sunset

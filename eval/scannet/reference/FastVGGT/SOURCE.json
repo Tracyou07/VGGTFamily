@@ -1,0 +1,32 @@
+{
+  "project": "FastVGGT",
+  "upstream_url": "https://github.com/mystorm16/FastVGGT",
+  "local_source_checkout": "/home/ubuntu/yjh/feedforwardreconstruct/eval/7scenes/reference/FastVGGT-main",
+  "snapshot_date": "2026-09-15",
+  "protocol_id": "fastvggt_scannet_evo132",
+  "evo_oracle_manifest": "../evo-1.32.0/SOURCE.json",
+  "license_file": "LICENSE.txt",
+  "files": {
+    "eval/eval_scannet.py": {
+      "sha256": "021475a1562783f8439891520dfd401e918eace72de4d1315820d144567bce9d"
+    },
+    "vggt/utils/eval_utils.py": {
+      "sha256": "d7d6a515c071b4b4e3c1d4cf89d728216fd7c3bec2dd119a59706f25bc9728e8"
+    },
+    "eval/scannet_50.yaml": {
+      "sha256": "c1728acca7cabf68fcdd4eb63db858e1b1768d5beb77873b7bacd92cc1fe8788"
+    },
+    "LICENSE.txt": {
+      "sha256": "b94e46746792d1adfa0ebdbccada5d4576d244ae230be9de8a46b5868fff001b"
+    }
+  },
+  "runtime_copy": "scannet_eval/vendor/fastvggt_eval_utils.py",
+  "runtime_deviations": [
+    "Matplotlib uses the Agg backend for headless evaluation.",
+    "vggt.utils.geometry and vggt.utils.pose_enc imports are deferred to infer_vggt_and_reconstruct to isolate model namespaces.",
+    "load_gt_pointcloud accepts an explicit validated PLY file path in addition to the original dataset-root layout.",
+    "Newer evo dual-alignment rejection is handled by explicitly reproducing official evo 1.32.0 behavior: Sim(3) alignment followed by origin alignment.",
+    "FastVGGT pose_enc is converted to float32 before camera decoding and the shared depth unprojection, preventing BF16 quaternion rounding from producing non-rigid camera matrices; model forward remains BF16."
+  ],
+  "protocol_notes": "Protocol fastvggt_scannet_evo132 intentionally uses official evo 1.32.0 dual alignment: normalized GT and predicted poses are evaluated as w2c trajectories with Sim(3) followed by origin alignment, while geometry receives a separate bbox center/diagonal scale alignment before seed-33, 100000-point cap, 5cm voxel, summed bidirectional clipped Chamfer distance."
+}

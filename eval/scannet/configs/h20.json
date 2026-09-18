@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "raw_root": "/data/yjh/share/datasets/ScanNet",
+  "prepared_root": "/data/yjh/share/datasets/ScanNet/prepared_scannet50_v1",
+  "scene_list": "/home/ubuntu/yjh/feedforwardreconstruct/eval/scannet/configs/scannet50.txt",
+  "models": {
+    "vggt_original": {
+      "python": "/home/ubuntu/anaconda3/envs/vggt-gx/bin/python",
+      "project_root": "/home/ubuntu/yjh/feedforwardreconstruct/vggtlong/base_models",
+      "checkpoint": "/data/yjh/share/pretrained/VGGT-1B/model.safetensors",
+      "image_size": 518,
+      "max_points": 0,
+      "depth_conf_thresh": 1.0
+    },
+    "vggt_star": {
+      "python": "/home/ubuntu/anaconda3/envs/vggt-gx/bin/python",
+      "project_root": "/home/ubuntu/yjh/feedforwardreconstruct/vggt",
+      "checkpoint": "/data/yjh/share/pretrained/VGGT-1B/model.safetensors",
+      "image_size": 518,
+      "max_points": 0,
+      "depth_conf_thresh": 1.0
+    },
+    "fastvggt": {
+      "python": "/home/ubuntu/anaconda3/envs/vggt-gx/bin/python",
+      "project_root": "/home/ubuntu/yjh/feedforwardreconstruct/eval/7scenes/reference/FastVGGT-main",
+      "checkpoint": "/data/yjh/share/pretrained/VGGT-1B/model.safetensors",
+      "image_size": 518,
+      "max_points": 0,
+      "depth_conf_thresh": 1.0,
+      "merging": 0,
+      "merge_ratio": 0.9
+    },
+    "streamvggt": {
+      "python": "/home/ubuntu/anaconda3/envs/vggt-gx/bin/python",
+      "project_root": "/home/ubuntu/yjh/feedforwardreconstruct/vggtstream/src",
+      "checkpoint": "/data/yjh/share/pretrained/StreamVGGT/checkpoints.pth",
+      "image_size": 518,
+      "max_points": 0,
+      "depth_conf_thresh": 1.0
+    },
+    "long": {
+      "python": "/home/ubuntu/anaconda3/envs/vggt-gx/bin/python",
+      "project_root": "/home/ubuntu/yjh/feedforwardreconstruct/vggtlong",
+      "checkpoint": "/data/yjh/share/pretrained/VGGT-1B/model.safetensors",
+      "image_size": 518,
+      "max_points": 0,
+      "depth_conf_thresh": 1.0,
+      "chunk_size": 60,
+      "overlap": 30,
+      "dependency_path": "/home/ubuntu/yjh/feedforwardreconstruct/eval/scannet/.runtime/long_deps",
+      "salad_checkpoint": "/data/yjh/share/pretrained/torch/hub/checkpoints/dino_salad.ckpt",
+      "dino_checkpoint": "/data/yjh/share/pretrained/torch/hub/checkpoints/dinov2_vitb14_pretrain.pth",
+      "salad_batch_size": 2,
+      "conf_threshold_coef": 0.75
+    },
+    "slam": {
+      "python": "/home/ubuntu/anaconda3/envs/monst3r/bin/python",
+      "project_root": "/home/ubuntu/yjh/feedforwardreconstruct/vggtslam",
+      "checkpoint": "/data/yjh/share/pretrained/VGGT-1B/model.safetensors",
+      "image_size": 518,
+      "max_points": 0,
+      "depth_conf_thresh": 1.0,
+      "submap_size": 16,
+      "max_loops": 1,
+      "conf_percentile": 25.0,
+      "lc_thres": 0.95,
+      "torch_home": "/data/yjh/share/pretrained/torch"
+    },
+    "omega": {
+      "python": "/home/ubuntu/anaconda3/envs/vggt-gx/bin/python",
+      "project_root": "/home/ubuntu/yjh/feedforwardreconstruct/vggtomega",
+      "checkpoint": "/data/yjh/share/pretrained/VGGT-Omega/vggt_omega_1b_512.pt",
+      "image_size": 512,
+      "max_points": 0,
+      "depth_conf_thresh": 1.0,
+      "image_mode": "balanced",
+      "patch_size": 16
+    }
+  }
+}

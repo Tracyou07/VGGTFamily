@@ -1,0 +1,43 @@
+# Python caches and coverage
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Build and editable-install metadata
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+.venv/
+venv/
+
+# Runtime outputs and logs
+results/
+outputs/
+runtime/
+logs/
+*.log
+
+# Prepared dataset state
+prepared/
+**/prepared/
+
+# Model artifacts
+checkpoints/
+models/
+*.ckpt
+*.pt
+*.pth
+*.safetensors
+
+# Local planning and review artifacts
+.superpowers/
+
+# Project-owned optional native dependency cache
+.runtime/

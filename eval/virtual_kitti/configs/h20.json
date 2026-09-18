@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "dataset_version": "1.3.1",
+  "camera": "monocular",
+  "raw_root": "/data/yjh/share/datasets/Virtual_KITTI_2.0.3/extracted",
+  "archive_root": "/data/yjh/share/datasets/Virtual_KITTI_2.0.3/archives",
+  "prepared_root": "../prepared",
+  "sequences_file": "sequences.txt",
+  "models": {
+    "vggt": {
+      "project_root": "/home/ubuntu/yjh/feedforwardreconstruct/vggtlong/base_models",
+      "checkpoint": "/data/yjh/share/pretrained/VGGT-1B/model.safetensors",
+      "image_size": 518,
+      "max_points": 0,
+      "depth_conf_thresh": 1.0,
+      "interpreter": "/home/ubuntu/anaconda3/envs/vggt-gx/bin/python",
+      "loop_closure": false,
+      "use_calibration": false
+    },
+    "vggt_star": {
+      "project_root": "/home/ubuntu/yjh/feedforwardreconstruct/vggt",
+      "checkpoint": "/data/yjh/share/pretrained/VGGT-1B/model.safetensors",
+      "image_size": 518,
+      "max_points": 0,
+      "depth_conf_thresh": 1.0,
+      "interpreter": "/home/ubuntu/anaconda3/envs/vggt-gx/bin/python",
+      "loop_closure": false,
+      "use_calibration": false
+    },
+    "streamvggt": {
+      "project_root": "/home/ubuntu/yjh/feedforwardreconstruct/vggtstream",
+      "checkpoint": "/data/yjh/share/pretrained/StreamVGGT/checkpoints.pth",
+      "image_size": 518,
+      "max_points": 0,
+      "depth_conf_thresh": 1.0,
+      "interpreter": "/home/ubuntu/anaconda3/envs/vggt-gx/bin/python",
+      "loop_closure": false,
+      "use_calibration": false
+    },
+    "vggt_slam": {
+      "project_root": "/home/ubuntu/yjh/feedforwardreconstruct/vggtslam",
+      "checkpoint": "/data/yjh/share/pretrained/VGGT-1B/model.safetensors",
+      "image_size": 518,
+      "max_points": 0,
+      "depth_conf_thresh": 1.0,
+      "submap_size": 16,
+      "max_loops": 1,
+      "conf_percentile": 25.0,
+      "lc_thres": 0.95,
+      "torch_home": "/data/yjh/share/pretrained/torch",
+      "interpreter": "/home/ubuntu/anaconda3/envs/monst3r/bin/python",
+      "loop_closure": true,
+      "use_calibration": false
+    },
+    "vggt_long": {
+      "project_root": "/home/ubuntu/yjh/feedforwardreconstruct/vggtlong",
+      "checkpoint": "/data/yjh/share/pretrained/VGGT-1B/model.safetensors",
+      "image_size": 518,
+      "max_points": 0,
+      "depth_conf_thresh": 1.0,
+      "chunk_size": 75,
+      "overlap": 30,
+      "dependency_path": "/home/ubuntu/yjh/feedforwardreconstruct/vggtlong/.runtime/long_deps",
+      "salad_checkpoint": "/data/yjh/share/pretrained/torch/hub/checkpoints/dino_salad.ckpt",
+      "dino_checkpoint": "/data/yjh/share/pretrained/torch/hub/checkpoints/dinov2_vitb14_pretrain.pth",
+      "salad_batch_size": 2,
+      "conf_threshold_coef": 0.75,
+      "interpreter": "/home/ubuntu/anaconda3/envs/vggt-gx/bin/python",
+      "loop_closure": true,
+      "use_calibration": false,
+      "loop_chunk_size": 20,
+      "retrieval": "salad",
+      "using_sim3": true
+    },
+    "vggt_omega": {
+      "project_root": "/home/ubuntu/yjh/feedforwardreconstruct/vggtomega",
+      "checkpoint": "/data/yjh/share/pretrained/VGGT-Omega/vggt_omega_1b_512.pt",
+      "image_size": 512,
+      "max_points": 0,
+      "depth_conf_thresh": 1.0,
+      "image_mode": "balanced",
+      "patch_size": 16,
+      "interpreter": "/home/ubuntu/anaconda3/envs/vggt-gx/bin/python",
+      "loop_closure": false,
+      "use_calibration": false
+    }
+  },
+  "gpu_min_free_mib": 81920,
+  "gpu_require_no_compute_processes": true
+}

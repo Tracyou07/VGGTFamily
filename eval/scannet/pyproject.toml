@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scannet-eval"
+version = "0.1.0"
+description = "Strict FastVGGT-compatible ScanNet evaluation runner"
+requires-python = ">=3.10"
+dependencies = [
+  "evo>=1.32,<2",
+  "numpy>=1.24",
+  "open3d>=0.18",
+  "Pillow>=9",
+  "scipy>=1.10"
+]
+
+[project.scripts]
+scannet-eval = "scannet_eval.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["scannet_eval*"]

@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kitti-eval"
+version = "0.1.0"
+description = "KITTI Odometry standalone evaluation infrastructure for six VGGT-family models."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.23", "Pillow>=9.0"]
+
+[project.optional-dependencies]
+test = ["pytest>=8.0", "torch>=2.4", "safetensors>=0.4"]
+
+[project.scripts]
+kitti-eval = "kitti_eval.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
