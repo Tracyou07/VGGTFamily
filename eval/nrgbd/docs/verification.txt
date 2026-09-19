@@ -1,0 +1,167 @@
+$ /home/ubuntu/anaconda3/envs/vggt-gx/bin/python -m unittest discover -s tests -v
+test_five_backends_allocation_free_and_doctor (test_backends.BackendTests) ... ok
+test_request_contains_no_gt (test_backends.BackendTests) ... ok
+test_check_json (test_cli.CliTests) ... ok
+test_backends_do_not_import_scoring (test_contract.ContractTests) ... ok
+test_native_bridge_invariants (test_contract.ContractTests) ... ok
+test_missing_pair_fails (test_data.DataTests) ... ok
+test_pose_and_depth_contract (test_data.DataTests) ... ok
+test_preflight_exact_scenes_and_kf10 (test_data.DataTests) ... ok
+test_atomic_commit_resume_and_partial (test_runner.RunnerTests) ... ok
+test_bad_cloud_fails (test_scoring.ScoringTests) ... ok
+test_exact_cloud_metrics (test_scoring.ScoringTests) ... ok
+test_lower_median_matches_torch_nanmedian (test_scoring.ScoringTests) ... ok
+test_sampling_is_deterministic (test_scoring.ScoringTests) ... ok
+test_world_points_transform_to_first_camera (test_scoring.ScoringTests) ... ok
+test_normalize_dense_output_to_protocol_shape (test_worker.WorkerTests) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 2.078s
+
+OK
+EXIT=0
+
+$ /home/ubuntu/anaconda3/envs/vggt-gx/bin/python -m ruff check src tests
+All checks passed!
+EXIT=0
+
+$ /home/ubuntu/anaconda3/envs/vggt-gx/bin/python -m black src tests --target-version py310 --check
+All done! ✨ 🍰 ✨
+35 files would be left unchanged.
+EXIT=0
+
+$ /home/ubuntu/anaconda3/envs/vggt-gx/bin/python -m compileall -q src tests
+EXIT=0
+
+$ bash -n scripts/run_model.sh scripts/check_all.sh scripts/verify_cpu.sh
+EXIT=0
+
+$ doctor vggt
+{
+  "checkpoint": "/data/yjh/share/pretrained/VGGT-1B/model.safetensors",
+  "checks": {
+    "adapter_helper": true,
+    "checkpoint": true,
+    "dependencies": true,
+    "python": true,
+    "required_files": true,
+    "required_paths": true,
+    "source_root": true,
+    "worker": true
+  },
+  "dependency_error": null,
+  "model": "vggt",
+  "python": "/home/ubuntu/anaconda3/envs/vggt-gx/bin/python",
+  "ready": true,
+  "required_files": {
+    "vggt/models/vggt.py": true
+  },
+  "required_paths": {},
+  "source_root": "/home/ubuntu/yjh/feedforwardreconstruct/vggtlong/base_models"
+}
+EXIT=0
+
+$ doctor vggt_long
+{
+  "checkpoint": "/data/yjh/share/pretrained/VGGT-1B/model.safetensors",
+  "checks": {
+    "adapter_helper": true,
+    "checkpoint": true,
+    "dependencies": true,
+    "python": true,
+    "required_files": true,
+    "required_paths": true,
+    "source_root": true,
+    "worker": true
+  },
+  "dependency_error": null,
+  "model": "vggt_long",
+  "python": "/home/ubuntu/anaconda3/envs/vggt-gx/bin/python",
+  "ready": true,
+  "required_files": {
+    "base_models/base_model.py": true,
+    "configs/base_config.yaml": true,
+    "vggt_long.py": true
+  },
+  "required_paths": {},
+  "source_root": "/home/ubuntu/yjh/feedforwardreconstruct/vggtlong"
+}
+EXIT=0
+
+$ doctor streamvggt
+{
+  "checkpoint": "/data/yjh/share/pretrained/StreamVGGT/checkpoints.pth",
+  "checks": {
+    "adapter_helper": true,
+    "checkpoint": true,
+    "dependencies": true,
+    "python": true,
+    "required_files": true,
+    "required_paths": true,
+    "source_root": true,
+    "worker": true
+  },
+  "dependency_error": null,
+  "model": "streamvggt",
+  "python": "/home/ubuntu/anaconda3/envs/vggt-gx/bin/python",
+  "ready": true,
+  "required_files": {
+    "src/streamvggt/models/streamvggt.py": true
+  },
+  "required_paths": {},
+  "source_root": "/home/ubuntu/yjh/feedforwardreconstruct/vggtstream"
+}
+EXIT=0
+
+$ doctor vggt_slam
+{
+  "checkpoint": "/data/yjh/share/pretrained/VGGT-1B/model.safetensors",
+  "checks": {
+    "adapter_helper": true,
+    "checkpoint": true,
+    "dependencies": true,
+    "python": true,
+    "required_files": true,
+    "required_paths": true,
+    "source_root": true,
+    "worker": true
+  },
+  "dependency_error": null,
+  "model": "vggt_slam",
+  "python": "/home/ubuntu/anaconda3/envs/monst3r/bin/python",
+  "ready": true,
+  "required_files": {
+    "vggt_slam/solver.py": true
+  },
+  "required_paths": {
+    "/data/yjh/share/pretrained/torch/hub/checkpoints/dino_salad.ckpt": true,
+    "/data/yjh/share/pretrained/torch/hub/facebookresearch_dinov2_main": true
+  },
+  "source_root": "/home/ubuntu/yjh/feedforwardreconstruct/vggtslam"
+}
+EXIT=0
+
+$ doctor vggt_omega
+{
+  "checkpoint": "/data/yjh/share/pretrained/VGGT-Omega/vggt_omega_1b_512.pt",
+  "checks": {
+    "adapter_helper": true,
+    "checkpoint": true,
+    "dependencies": true,
+    "python": true,
+    "required_files": true,
+    "required_paths": true,
+    "source_root": true,
+    "worker": true
+  },
+  "dependency_error": null,
+  "model": "vggt_omega",
+  "python": "/home/ubuntu/anaconda3/envs/vggt-gx/bin/python",
+  "ready": true,
+  "required_files": {
+    "run.py": true
+  },
+  "required_paths": {},
+  "source_root": "/home/ubuntu/yjh/feedforwardreconstruct/vggtomega"
+}
+EXIT=0

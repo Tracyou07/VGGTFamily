@@ -1,0 +1,1 @@
+MODEL = "vggt_omega"

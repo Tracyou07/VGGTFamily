@@ -1,0 +1,113 @@
+{
+  "dataset_root": "/data/yjh/share/datasets/NRGBD",
+  "icp_threshold": 0.1,
+  "models": {
+    "streamvggt": {
+      "checkpoint": "/data/yjh/share/pretrained/StreamVGGT/checkpoints.pth",
+      "dependencies": [
+        "torch",
+        "numpy"
+      ],
+      "python": "/home/ubuntu/anaconda3/envs/vggt-gx/bin/python",
+      "required_files": [
+        "src/streamvggt/models/streamvggt.py"
+      ],
+      "settings": {},
+      "source_root": "/home/ubuntu/yjh/feedforwardreconstruct/vggtstream",
+      "worker_module": "nrgbd_eval.backend_worker"
+    },
+    "vggt": {
+      "checkpoint": "/data/yjh/share/pretrained/VGGT-1B/model.safetensors",
+      "dependencies": [
+        "torch",
+        "numpy",
+        "safetensors"
+      ],
+      "python": "/home/ubuntu/anaconda3/envs/vggt-gx/bin/python",
+      "required_files": [
+        "vggt/models/vggt.py"
+      ],
+      "settings": {},
+      "source_root": "/home/ubuntu/yjh/feedforwardreconstruct/vggtlong/base_models",
+      "worker_module": "nrgbd_eval.backend_worker"
+    },
+    "vggt_long": {
+      "checkpoint": "/data/yjh/share/pretrained/VGGT-1B/model.safetensors",
+      "dependencies": [
+        "torch",
+        "numpy",
+        "safetensors",
+        "yaml"
+      ],
+      "python": "/home/ubuntu/anaconda3/envs/vggt-gx/bin/python",
+      "required_files": [
+        "vggt_long.py",
+        "configs/base_config.yaml",
+        "base_models/base_model.py"
+      ],
+      "settings": {
+        "align_method": "numpy",
+        "chunk_size": 60,
+        "loop_enable": false,
+        "overlap": 30
+      },
+      "source_root": "/home/ubuntu/yjh/feedforwardreconstruct/vggtlong",
+      "worker_module": "nrgbd_eval.backend_worker"
+    },
+    "vggt_omega": {
+      "checkpoint": "/data/yjh/share/pretrained/VGGT-Omega/vggt_omega_1b_512.pt",
+      "dependencies": [
+        "torch",
+        "numpy"
+      ],
+      "python": "/home/ubuntu/anaconda3/envs/vggt-gx/bin/python",
+      "required_files": [
+        "run.py"
+      ],
+      "settings": {},
+      "source_root": "/home/ubuntu/yjh/feedforwardreconstruct/vggtomega",
+      "worker_module": "nrgbd_eval.backend_worker"
+    },
+    "vggt_slam": {
+      "checkpoint": "/data/yjh/share/pretrained/VGGT-1B/model.safetensors",
+      "dependencies": [
+        "torch",
+        "numpy",
+        "gtsam"
+      ],
+      "python": "/home/ubuntu/anaconda3/envs/monst3r/bin/python",
+      "required_files": [
+        "vggt_slam/solver.py"
+      ],
+      "required_paths": [
+        "/data/yjh/share/pretrained/torch/hub/facebookresearch_dinov2_main",
+        "/data/yjh/share/pretrained/torch/hub/checkpoints/dino_salad.ckpt"
+      ],
+      "settings": {
+        "conf_threshold": 1.5,
+        "lc_thres": 0.95,
+        "max_loops": 1,
+        "submap_size": 16,
+        "torch_home": "/data/yjh/share/pretrained/torch"
+      },
+      "source_root": "/home/ubuntu/yjh/feedforwardreconstruct/vggtslam",
+      "worker_module": "nrgbd_eval.backend_worker"
+    }
+  },
+  "output_root": "/home/ubuntu/yjh/feedforwardreconstruct/eval/nrgbd/results",
+  "point_cap": 999999,
+  "protocol": {
+    "crop_size": 224,
+    "icp_threshold": 0.1,
+    "id": "fastvggt_nrgbd_kf10_v1",
+    "input_size": [
+      518,
+      392
+    ],
+    "kf": 10,
+    "point_cap": 999999,
+    "seed": 42
+  },
+  "schema_version": 1,
+  "seed": 42
+}

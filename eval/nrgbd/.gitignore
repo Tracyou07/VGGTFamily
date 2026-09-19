@@ -1,0 +1,16 @@
+.superpowers/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.runtime/
+.venv/
+results/
+outputs/
+logs/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.pem
+.env
