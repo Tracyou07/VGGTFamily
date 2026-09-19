@@ -7,8 +7,19 @@ import tempfile
 
 def _write(path, data):
     path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    with path.open("rb") as f:
+    with path.open("r+b") as f:
         os.fsync(f.fileno())
+
+
+def _fsync_directory(path):
+    flags = getattr(os, "O_DIRECTORY", None)
+    if flags is None:
+        return
+    directory_fd = os.open(path, os.O_RDONLY | flags)
+    try:
+        os.fsync(directory_fd)
+    finally:
+        os.close(directory_fd)
 
 
 def commit_scene(run_root, scene_id, metrics, provenance, metadata=None):
@@ -21,13 +32,9 @@ def commit_scene(run_root, scene_id, metrics, provenance, metadata=None):
     _write(stage / "prediction_metadata.json", metadata or {})
     complete = stage / "COMPLETE"
     complete.write_text("complete\n")
-    with complete.open("rb") as handle:
+    with complete.open("r+b") as handle:
         os.fsync(handle.fileno())
-    directory_fd = os.open(stage, os.O_RDONLY)
-    try:
-        os.fsync(directory_fd)
-    finally:
-        os.close(directory_fd)
+    _fsync_directory(stage)
     target = scenes / scene_id
     if target.exists():
         shutil.rmtree(target)
