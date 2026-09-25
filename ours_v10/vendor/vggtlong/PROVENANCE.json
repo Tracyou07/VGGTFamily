@@ -1,0 +1,11 @@
+{
+  "source": "/home/ubuntu/yjh/feedforwardreconstruct/vggtlong",
+  "git_commit": null,
+  "reason": "source directory has no git metadata",
+  "sha256": {
+    "loop_utils/sim3utils.py": "38b64656b0bac42e52ac3eccce827d3477ad1dc6681747bec8b4fd7e8bddfb6d",
+    "vggt_long.py": "8f0f1fe841584fe1d42d1351420e3f99e6e822ac7eca89cf91389990466bc6bb",
+    "configs/base_config.yaml": "bce34d470d7dd2899af0eedbd29bc908d33bd2e1eae71cbde2bf03618c36c32c",
+    "LICENSE.txt": "ca633b19556367d86d1ce35ad431d5bd7114d0d56b8b3d8d89e917d7d56d8e9e"
+  }
+}

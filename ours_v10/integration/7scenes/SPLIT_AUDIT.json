@@ -1,0 +1,294 @@
+{
+  "10": [
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/redkitchen/seq-03/frame-000000.color.png",
+      "frames": 100,
+      "last": "000990",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/redkitchen/seq-03/frame-000990.color.png",
+      "scene": "redkitchen/seq-03"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/redkitchen/seq-04/frame-000000.color.png",
+      "frames": 100,
+      "last": "000990",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/redkitchen/seq-04/frame-000990.color.png",
+      "scene": "redkitchen/seq-04"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/redkitchen/seq-06/frame-000000.color.png",
+      "frames": 100,
+      "last": "000990",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/redkitchen/seq-06/frame-000990.color.png",
+      "scene": "redkitchen/seq-06"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/redkitchen/seq-12/frame-000000.color.png",
+      "frames": 100,
+      "last": "000990",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/redkitchen/seq-12/frame-000990.color.png",
+      "scene": "redkitchen/seq-12"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/redkitchen/seq-14/frame-000000.color.png",
+      "frames": 100,
+      "last": "000990",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/redkitchen/seq-14/frame-000990.color.png",
+      "scene": "redkitchen/seq-14"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/pumpkin/seq-01/frame-000000.color.png",
+      "frames": 100,
+      "last": "000990",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/pumpkin/seq-01/frame-000990.color.png",
+      "scene": "pumpkin/seq-01"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/pumpkin/seq-07/frame-000000.color.png",
+      "frames": 100,
+      "last": "000990",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/pumpkin/seq-07/frame-000990.color.png",
+      "scene": "pumpkin/seq-07"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/fire/seq-03/frame-000000.color.png",
+      "frames": 100,
+      "last": "000990",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/fire/seq-03/frame-000990.color.png",
+      "scene": "fire/seq-03"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/fire/seq-04/frame-000000.color.png",
+      "frames": 100,
+      "last": "000990",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/fire/seq-04/frame-000990.color.png",
+      "scene": "fire/seq-04"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/chess/seq-03/frame-000000.color.png",
+      "frames": 100,
+      "last": "000990",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/chess/seq-03/frame-000990.color.png",
+      "scene": "chess/seq-03"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/chess/seq-05/frame-000000.color.png",
+      "frames": 100,
+      "last": "000990",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/chess/seq-05/frame-000990.color.png",
+      "scene": "chess/seq-05"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/office/seq-02/frame-000000.color.png",
+      "frames": 100,
+      "last": "000990",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/office/seq-02/frame-000990.color.png",
+      "scene": "office/seq-02"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/office/seq-06/frame-000000.color.png",
+      "frames": 100,
+      "last": "000990",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/office/seq-06/frame-000990.color.png",
+      "scene": "office/seq-06"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/office/seq-07/frame-000000.color.png",
+      "frames": 100,
+      "last": "000990",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/office/seq-07/frame-000990.color.png",
+      "scene": "office/seq-07"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/office/seq-09/frame-000000.color.png",
+      "frames": 100,
+      "last": "000990",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/office/seq-09/frame-000990.color.png",
+      "scene": "office/seq-09"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/heads/seq-01/frame-000000.color.png",
+      "frames": 100,
+      "last": "000990",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/heads/seq-01/frame-000990.color.png",
+      "scene": "heads/seq-01"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/stairs/seq-01/frame-000000.color.png",
+      "frames": 50,
+      "last": "000490",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/stairs/seq-01/frame-000490.color.png",
+      "scene": "stairs/seq-01"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/stairs/seq-04/frame-000000.color.png",
+      "frames": 50,
+      "last": "000490",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/stairs/seq-04/frame-000490.color.png",
+      "scene": "stairs/seq-04"
+    }
+  ],
+  "3": [
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/redkitchen/seq-03/frame-000000.color.png",
+      "frames": 334,
+      "last": "000999",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/redkitchen/seq-03/frame-000999.color.png",
+      "scene": "redkitchen/seq-03"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/redkitchen/seq-04/frame-000000.color.png",
+      "frames": 334,
+      "last": "000999",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/redkitchen/seq-04/frame-000999.color.png",
+      "scene": "redkitchen/seq-04"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/redkitchen/seq-06/frame-000000.color.png",
+      "frames": 334,
+      "last": "000999",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/redkitchen/seq-06/frame-000999.color.png",
+      "scene": "redkitchen/seq-06"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/redkitchen/seq-12/frame-000000.color.png",
+      "frames": 334,
+      "last": "000999",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/redkitchen/seq-12/frame-000999.color.png",
+      "scene": "redkitchen/seq-12"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/redkitchen/seq-14/frame-000000.color.png",
+      "frames": 334,
+      "last": "000999",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/redkitchen/seq-14/frame-000999.color.png",
+      "scene": "redkitchen/seq-14"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/pumpkin/seq-01/frame-000000.color.png",
+      "frames": 334,
+      "last": "000999",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/pumpkin/seq-01/frame-000999.color.png",
+      "scene": "pumpkin/seq-01"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/pumpkin/seq-07/frame-000000.color.png",
+      "frames": 334,
+      "last": "000999",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/pumpkin/seq-07/frame-000999.color.png",
+      "scene": "pumpkin/seq-07"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/fire/seq-03/frame-000000.color.png",
+      "frames": 334,
+      "last": "000999",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/fire/seq-03/frame-000999.color.png",
+      "scene": "fire/seq-03"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/fire/seq-04/frame-000000.color.png",
+      "frames": 334,
+      "last": "000999",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/fire/seq-04/frame-000999.color.png",
+      "scene": "fire/seq-04"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/chess/seq-03/frame-000000.color.png",
+      "frames": 334,
+      "last": "000999",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/chess/seq-03/frame-000999.color.png",
+      "scene": "chess/seq-03"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/chess/seq-05/frame-000000.color.png",
+      "frames": 334,
+      "last": "000999",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/chess/seq-05/frame-000999.color.png",
+      "scene": "chess/seq-05"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/office/seq-02/frame-000000.color.png",
+      "frames": 334,
+      "last": "000999",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/office/seq-02/frame-000999.color.png",
+      "scene": "office/seq-02"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/office/seq-06/frame-000000.color.png",
+      "frames": 334,
+      "last": "000999",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/office/seq-06/frame-000999.color.png",
+      "scene": "office/seq-06"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/office/seq-07/frame-000000.color.png",
+      "frames": 334,
+      "last": "000999",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/office/seq-07/frame-000999.color.png",
+      "scene": "office/seq-07"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/office/seq-09/frame-000000.color.png",
+      "frames": 334,
+      "last": "000999",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/office/seq-09/frame-000999.color.png",
+      "scene": "office/seq-09"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/heads/seq-01/frame-000000.color.png",
+      "frames": 334,
+      "last": "000999",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/heads/seq-01/frame-000999.color.png",
+      "scene": "heads/seq-01"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/stairs/seq-01/frame-000000.color.png",
+      "frames": 167,
+      "last": "000498",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/stairs/seq-01/frame-000498.color.png",
+      "scene": "stairs/seq-01"
+    },
+    {
+      "first": "000000",
+      "first_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/stairs/seq-04/frame-000000.color.png",
+      "frames": 167,
+      "last": "000498",
+      "last_rgb": "/data/yjh/share/datasets/7scenes_registered_simplerecon_v1/stairs/seq-04/frame-000498.color.png",
+      "scene": "stairs/seq-04"
+    }
+  ]
+}

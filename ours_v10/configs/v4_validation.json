@@ -1,0 +1,23 @@
+{
+  "scene_root": "/data/yjh/share/datasets/ScanNet/prepared_scannet50_v1/scene0150_00",
+  "window_size": 30,
+  "overlap": 10,
+  "window_batch_size": 2,
+  "gate_frames": 55,
+  "diagnostic_frames": 100,
+  "tolerances": {
+    "fp32": {
+      "atol": 0.0005,
+      "rtol": 0.0005,
+      "center_m": 0.0001,
+      "rotation_deg": 0.02
+    },
+    "bf16": {
+      "atol": 0.02,
+      "rtol": 0.02,
+      "center_m": 0.01,
+      "rotation_deg": 0.5
+    }
+  },
+  "tolerance_reason": "Predeclared elementwise FP32 5e-4 and BF16 2e-2 numerical budgets, plus stricter physical pose checks. Reference repeat measures actual noise; budgets are not adjusted after results. Relative denominator floor is atol for reporting only. No Sim3 before equivalence."
+}

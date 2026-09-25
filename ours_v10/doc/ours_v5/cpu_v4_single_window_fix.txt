@@ -1,0 +1,32 @@
+test_camera_depth_and_dedup (test_core.GeometryTests) ... ok
+test_fit_and_composition_direction (test_core.GeometryTests) ... ok
+test_outliers_and_failures (test_core.GeometryTests) ... ok
+test_reflection_never_returns_improper_rotation (test_core.GeometryTests) ... ok
+test_slice_caches_by_ids (test_core.WindowTests) ... ok
+test_visibility_unique_queries_and_keys (test_core.WindowTests) ... ok
+test_windows_and_tail (test_core.WindowTests) ... ok
+test_capture_compare_detects_corruption (test_gate.GateTests) ... ok
+test_frozen_model_and_exclusive_frame (test_gate.GateTests) ... ok
+test_batch_order (test_packing.PackingTests) ... ok
+test_batched_equals_separate_head_caches (test_packing.PackingTests) ... ok
+test_overlap_instance_mutation_does_not_leak (test_packing.PackingTests) ... ok
+test_reference_reset_per_window (test_packing.PackingTests) ... ok
+test_schedule_and_tail (test_packing.PackingTests) ... ok
+test_deferred_stitch_matches_original_and_writes_edges (test_seven_engine.EngineTests) ... ok
+test_gate_rejects_window_and_global_mismatch_without_alignment (test_seven_engine.EngineTests) ... ok
+test_identical_metrics_against_existing_long_adapter (test_seven_protocol.ProtocolTest) ... /home/ubuntu/anaconda3/envs/vggt-gx/lib/python3.10/site-packages/evo/tools/settings.py:137: ResourceWarning: unclosed file <_io.TextIOWrapper name='/home/ubuntu/.evo/assets_version' mode='r' encoding='UTF-8'>
+  if open(USER_ASSETS_VERSION_PATH).read() == __version__:
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_resume_rejects_missing_corrupt_and_failed_artifacts (test_sevenscenes.SevenScenesTests) ... ok
+test_sampling_and_frame_paths (test_sevenscenes.SevenScenesTests) ... ok
+test_sim3_depth_pose_point_consistency (test_sevenscenes.SevenScenesTests) ... ok
+test_summary_requires_all_18_unique_valid_sequences (test_sevenscenes.SevenScenesTests) ... ok
+test_windows_short_tail_and_ownership (test_sevenscenes.SevenScenesTests) ... ok
+test_chain_dedup_scale_and_failure (test_stitch.StitchTests) ... ok
+test_correspondence_uses_ids_and_same_pixel (test_stitch.StitchTests) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 5.895s
+
+OK

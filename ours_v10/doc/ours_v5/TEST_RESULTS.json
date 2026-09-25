@@ -1,0 +1,22 @@
+{
+  "suites": {
+    "cpu_v5_tests": {
+      "tests": 27,
+      "passed": true,
+      "sha256": "e194dc6401fbeda71c3f5c63d3fb39ff95b40f283805b352b5d5d69044c82029"
+    },
+    "cpu_v4_regression": {
+      "tests": 24,
+      "passed": true,
+      "sha256": "a794feb2cb1fccb7b9b67333e8aa795d4b9f2fdac9ac4120952acfc2b6c316d2"
+    },
+    "cpu_results_root": {
+      "tests": 8,
+      "passed": true,
+      "sha256": "570966bfd99bdf76453c7be716b06e27ebe3bd532bfd9ade179e1838c949b50d"
+    }
+  },
+  "total": 59,
+  "real_gpu_gates": "NOT_RUN",
+  "benchmark": "NOT_RUN"
+}

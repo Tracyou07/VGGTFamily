@@ -1,0 +1,21 @@
+test_camera_depth_and_dedup (test_core.GeometryTests) ... ok
+test_fit_and_composition_direction (test_core.GeometryTests) ... ok
+test_outliers_and_failures (test_core.GeometryTests) ... ok
+test_reflection_never_returns_improper_rotation (test_core.GeometryTests) ... ok
+test_slice_caches_by_ids (test_core.WindowTests) ... ok
+test_visibility_unique_queries_and_keys (test_core.WindowTests) ... ok
+test_windows_and_tail (test_core.WindowTests) ... ok
+test_capture_compare_detects_corruption (test_gate.GateTests) ... ok
+test_frozen_model_and_exclusive_frame (test_gate.GateTests) ... ok
+test_batch_order (test_packing.PackingTests) ... ok
+test_batched_equals_separate_head_caches (test_packing.PackingTests) ... ok
+test_overlap_instance_mutation_does_not_leak (test_packing.PackingTests) ... ok
+test_reference_reset_per_window (test_packing.PackingTests) ... ok
+test_schedule_and_tail (test_packing.PackingTests) ... ok
+test_chain_dedup_scale_and_failure (test_stitch.StitchTests) ... ok
+test_correspondence_uses_ids_and_same_pixel (test_stitch.StitchTests) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.410s
+
+OK

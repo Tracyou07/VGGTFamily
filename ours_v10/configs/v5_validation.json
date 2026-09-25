@@ -1,0 +1,22 @@
+{
+  "scene_root": "/data/yjh/share/datasets/ScanNet/prepared_scannet50_v1/scene0150_00",
+  "window_size": 60,
+  "overlap": 30,
+  "window_batch_size": 2,
+  "diagnostic_frames": 100,
+  "base_v4_commit": "17439bd3ee46c8f2aab681fa0fc3baffdb8f1dd0",
+  "communication_modes": [
+    "independent",
+    "camera_exchange"
+  ],
+  "alignment_mode": "vggtlong_overlap",
+  "cpu_offload": false,
+  "checkpoint": "/data/yjh/share/pretrained/VGGT-1B/model.safetensors",
+  "checkpoint_sha256": "f164acf60724910d8fe1578bb499d800850c7bb0948db7555c413f9fbe60467e",
+  "camera_query_chunk_size": 64,
+  "IRLS": {
+    "delta": 0.1,
+    "max_iters": 5,
+    "tol": 1e-09
+  }
+}

@@ -1,0 +1,859 @@
+\documentclass[UTF8,a4paper,11pt]{ctexart}
+
+\usepackage[left=2.25cm,right=2.25cm,top=2.25cm,bottom=2.35cm]{geometry}
+\usepackage{amsmath,amssymb,mathtools,bm}
+\usepackage{booktabs,tabularx,longtable,array,multirow}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,shapes.geometric}
+\usepackage{hyperref}
+\usepackage{xurl}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{fancyhdr}
+
+\definecolor{DeepBlue}{HTML}{17365D}
+\definecolor{AccentBlue}{HTML}{2F75B5}
+\definecolor{PaleBlue}{HTML}{EAF2F8}
+\definecolor{AccentOrange}{HTML}{D97904}
+\definecolor{PaleOrange}{HTML}{FFF3E0}
+\definecolor{AccentGreen}{HTML}{3B7D44}
+\definecolor{PaleGreen}{HTML}{EAF5EC}
+\definecolor{DarkGray}{HTML}{404040}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=DeepBlue,
+  citecolor=AccentGreen,
+  urlcolor=AccentBlue,
+  pdftitle={固定观测下相机轨迹的可辨识性、近最优集合几何与连通性},
+  pdfauthor={Camera Solution Space 01}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Camera Solution Space 01}
+\fancyhead[R]{\small Theory Foundation}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{14pt}
+
+\setlist[itemize]{leftmargin=2em,itemsep=0.25em,topsep=0.35em}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.25em,topsep=0.35em}
+\renewcommand{\arraystretch}{1.22}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.25em}
+
+\newcommand{\SE}{\mathrm{SE}}
+\newcommand{\SO}{\mathrm{SO}}
+\newcommand{\Sim}{\mathrm{Sim}}
+\newcommand{\PGL}{\mathrm{PGL}}
+\newcommand{\Sset}{\mathcal S}
+\newcommand{\Tspace}{\mathcal T}
+\newcommand{\Mspace}{\mathcal M}
+\newcommand{\Qspace}{\mathcal Q}
+\newcommand{\Energy}{\mathcal E}
+\newcommand{\argmin}{\operatorname*{arg\,min}}
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Law}{\operatorname{Law}}
+\newcommand{\checkeditem}{\item[\textcolor{AccentGreen}{$\checkmark$}]}
+\setlength{\emergencystretch}{2em}
+
+\newenvironment{statusbox}
+  {\begin{center}\begin{minipage}{0.94\textwidth}\small\color{DarkGray}
+   \noindent\textcolor{AccentOrange}{\rule{\linewidth}{1.2pt}}\par\noindent}
+  {\par\noindent\textcolor{AccentOrange}{\rule{\linewidth}{1.2pt}}
+   \end{minipage}\end{center}}
+
+\newenvironment{keybox}
+  {\begin{center}\begin{minipage}{0.94\textwidth}\small\color{DarkGray}
+   \noindent\textcolor{AccentBlue}{\rule{\linewidth}{1.2pt}}\par\noindent}
+  {\par\noindent\textcolor{AccentBlue}{\rule{\linewidth}{1.2pt}}
+   \end{minipage}\end{center}}
+
+\title{\bfseries\color{DeepBlue}固定观测下相机轨迹的可辨识性、\\近最优集合几何与连通性\\[0.5em]
+\large Camera Solution Space 01 --- Theory Foundation}
+\author{Research Foundation Note}
+\date{2026-08-22\\[0.25em]
+\texttt{codex/camera\_solution\_space\_01\_theory\_foundation}\\
+基线：\texttt{origin/main@15e96cc}}
+
+\begin{document}
+
+\maketitle
+
+\begin{statusbox}
+\textbf{研究状态声明：}本文建立一个新问题的理论地基。当前分支尚未运行任何
+解空间拓扑实验，也没有证据证明 VGGT 的固定观测相机解是唯一、连续非可辨识
+或由多个断开分量组成。旧实验分支的结果不作为本文命题的前提。
+\end{statusbox}
+
+\begin{abstract}
+本文研究固定图像观测和固定几何约束下，相机轨迹近最优集合在去除坐标 gauge
+后的大小、局部弱可辨识性与道路连通性。我们指出，正容差子水平集通常是满维
+厚集合，因此“近似唯一、连续低维、离散分支”的三选一表述在数学上不成立。
+本文改用商空间直径、道路连通分量数、minimax 能垒和局部弱可辨识维数四个
+独立量描述问题；严格区分 gauge、exact fiber、优化 basin、posterior mode 和
+算法输出多样性；给出 MSE、Diffusion 与 Flow Matching 能力边界；最后形成
+三人递进分工、可证伪假设和 go/no-go 门槛。本阶段不训练模型，也不宣称已经
+发现相机轨迹的连续冗余或断开分支。
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{执行摘要}
+
+我们真正要回答的不是“长序列和短序列谁更稳”，也不是“换几个随机种子能否
+得到不同输出”，而是：
+
+\begin{keybox}
+在图像、帧顺序、预处理、内外部约束和评价目标全部固定后，去除坐标 gauge 的
+相机轨迹近最优集合有多大、是否存在大尺度可行路径、是否分成多个道路连通分量，
+以及局部是否存在弱可辨识方向？
+\end{keybox}
+
+一个方便的初始写法是
+\begin{equation}
+  \Sset_\epsilon(I)=\{T\mid E(I,T)\le\epsilon\}/G,
+  \label{eq:initial-set}
+\end{equation}
+但它还不够严谨。固定观测必须包含完整输入协议；能量通常还依赖未知场景几何；
+gauge 群依赖传感器和锚点；而且只要 $\epsilon>\min E$ 且存在严格可行点，连续
+能量的子水平集通常含开邻域，因此局部是\textbf{满维厚集合}，不能直接称为
+低维流形。
+
+本文不再把问题写成互斥三选一。实验先预注册绝对阈值 $h$，令
+$\Sset_h=\{q:\bar E(q)\le h\}$，再测量四个相互独立的量：
+\begin{equation}
+  \Xi(I;h,\delta,\tau)
+  =\bigl(D_h,\ \beta_0(\Sset_h),\
+  \mathcal H_{h,\delta},\ k_{\mathrm{weak}}(\tau)\bigr),
+  \label{eq:descriptor}
+\end{equation}
+分别表示去 gauge 后的集合直径、道路连通分量数、相距至少 $\delta$ 的候选对
+之间的 minimax 高度剖面/矩阵，以及局部弱可辨识方向数。它们允许混合情况：
+两个断开分量中的每一个都可能含有连续弱方向。
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm,font=\small]
+    \draw[rounded corners,fill=PaleBlue,draw=AccentBlue] (0,0) rectangle (3.4,2.5);
+    \node[align=center,text=DeepBlue] at (1.7,2.15) {孤立最优点};
+    \draw[AccentBlue,thick] (1.7,1.40) circle (0.50);
+    \fill[DeepBlue] (1.7,1.40) circle (2.5pt);
+    \node[align=center,text width=3.0cm,font=\footnotesize] at (1.7,0.45)
+      {小直径；\\局部强可辨识};
+
+    \draw[rounded corners,fill=PaleGreen,draw=AccentGreen] (3.8,0) rectangle (7.2,2.5);
+    \node[align=center,text=AccentGreen] at (5.5,2.15) {连通弱方向};
+    \draw[AccentGreen,very thick] plot[smooth] coordinates
+      {(4.25,1.34) (4.8,1.64) (5.45,1.17) (6.15,1.60) (6.75,1.34)};
+    \draw[AccentGreen,dashed] (4.15,1.00) rectangle (6.85,1.80);
+    \node[align=center,text width=3.0cm,font=\footnotesize] at (5.5,0.45)
+      {远端点可由\\低能路径连接};
+
+    \draw[rounded corners,fill=PaleOrange,draw=AccentOrange] (7.6,0) rectangle (11,2.5);
+    \node[align=center,text=AccentOrange] at (9.3,2.15) {分离候选区域};
+    \draw[AccentOrange,thick] (8.35,1.40) ellipse (0.46 and 0.31);
+    \draw[AccentOrange,thick] (10.25,1.40) ellipse (0.46 and 0.31);
+    \draw[AccentOrange,dashed,->] (8.9,1.40) -- node[above]{能垒} (9.7,1.40);
+    \node[align=center,text width=3.0cm,font=\footnotesize] at (9.3,0.45)
+      {需 barrier 下界\\才能称断开};
+
+    \draw[rounded corners,fill=gray!8,draw=DarkGray] (11.4,0) rectangle (14.8,2.5);
+    \node[align=center,text=DarkGray] at (13.1,2.15) {混合结构};
+    \draw[DarkGray,very thick] (12.35,1.40) circle (0.40);
+    \draw[DarkGray,very thick] (13.85,1.40) circle (0.40);
+    \node[align=center,text width=3.0cm,font=\footnotesize] at (13.1,0.45)
+      {多分量且\\分量内连续};
+  \end{tikzpicture}
+  \caption{四种便于沟通的几何形态。正式结论由式~\eqref{eq:descriptor}的四量给出；
+  这些标签不互斥，也不是仅凭有限采样即可确认的拓扑证书。}
+  \label{fig:solution-shapes}
+\end{figure}
+
+当前最重要的下一步不是训练 Diffusion 或 Flow Matching，而是依次冻结对象、
+验证能量、建立合成正负控制、测量固定实例的局部弱方向，再检验远距离候选间
+路径和能垒。模型选择是这条证据链的末端，而不是起点。
+
+\section{新分支与当前仓库的实际边界}
+
+\subsection{继承父分支，但不继承旧问题命名与结论}
+
+本研究线从稳定父分支创建：
+\begin{center}
+\texttt{origin/main@15e96cc}
+$\longrightarrow$
+\texttt{codex/camera\_solution\_space\_01\_theory\_foundation}.
+\end{center}
+它继承 VGGT 基线代码和通用仓库规范，但 014--023 等旧实验分支的专属提交
+不在本分支祖先链中。旧 long-vs-short、context drift 或 residual topology 观察
+最多作为提问背景，不作为固定条件多解的证据。
+
+\subsection{当前代码提供的对象}
+
+VGGT 是从一幅、若干幅或大量视图直接预测相机、深度、点图和轨迹等几何量的
+前馈模型\citep{wang2025vggt}。当前仓库的 \texttt{VGGT.forward()} 由 Camera
+Head 输出最终 \texttt{pose\_enc} 和默认 4 次迭代细化的
+\texttt{pose\_enc\_list}。9 维相机编码由 3 维平移、4 维四元数和 2 维 FoV
+组成。Camera Head 从 learned empty pose 开始，重复 pose-conditioned modulation、
+Transformer trunk、9D residual 累加和激活。
+
+因此：
+\begin{enumerate}
+  \item \texttt{pose\_enc\_list} 是同一次确定性解码的中间迭代，不是四个独立样本；
+  \item 当前仓库给出估计器 $\widehat T_\theta(I)$，而不是集合 $\Sset_\epsilon(I)$；
+  \item 当前没有统一 $E$、gauge quotient、候选枚举器、路径连通检验或分量证书。
+\end{enumerate}
+
+故本分支的真实实验结论是：\textbf{尚无结论，问题开放。} 这正是理论分支有意
+设置的起点。
+
+\subsection{非目标}
+
+本文不声称不同长度证明固定条件多模态；不把优化 basin 当成解集断开；不把
+随机输出簇当成 posterior 或拓扑分量；不立刻替换 Camera Head；不在本阶段
+启动 DP/FM 训练；也不把 Ground Truth 直接放进候选发现能量后再宣称图像决定
+唯一解。
+
+\section{对象冻结协议}
+
+\subsection{固定观测与完整条件}
+
+令 $I=(I_1,\ldots,I_N)$。一次固定条件实验必须冻结并散列：图像像素、帧 ID、
+顺序和长度；resize/crop/归一化和分辨率；内参、畸变、时间戳与 rolling-shutter
+假设；动态/天空/遮挡 mask；已知尺度、重力、地图或首尾姿态；全部 residual、
+权重、robust loss、正则和阈值；若评价含随机性，还要固定随机源或定义期望/
+高概率能量。统称这些内容为 $C$，后文所有集合均为 $\Sset_\epsilon(I,C)$。
+
+改变帧数、顺序、mask、内参或 prompt 已经改变条件问题。
+
+\subsection{轨迹、内参与 nuisance variables}
+
+固定内参下的离散外参轨迹空间可取
+\begin{equation}
+  \Tspace_N=\SE(3)^N,\qquad \dim\Tspace_N=6N.
+\end{equation}
+令 $T_i=(R_i,c_i)$ 为第 $i$ 帧 camera-to-world 位姿。若内参未知，应扩展状态为
+$q=(T,K)$，不能把 FoV 变化悄悄算进外参轨迹。
+
+多视图评价通常还依赖场景几何、深度、对应、可见性或动态状态
+$Z\in\mathcal Z$。联合能量可写为
+\begin{equation}
+  \ell_{I,C}(T,Z)
+  =\sum_j w_j\rho_j\!\left(r_j(I,C,T,Z)\right)+R_C(T,Z).
+  \label{eq:joint-energy}
+\end{equation}
+若只研究轨迹，可用 profile energy
+\begin{equation}
+  E_{I,C}(T)=\inf_{Z\in\mathcal Z_C}\ell_{I,C}(T,Z).
+  \label{eq:profile-energy}
+\end{equation}
+但最优 $Z$ 切换可能使 $E$ 不光滑，错误 pose 也可能被错误 depth、对应或内参
+补偿。局部 Jacobian 理论应优先用于联合空间或固定的光滑活动分支。
+
+\subsection{硬约束与合法路径}
+
+硬约束给出
+\begin{equation}
+  \Mspace_C
+  =\{T\in\Tspace_N:h_C(T)=0,\ a_C(T)\le0\}.
+\end{equation}
+路径必须留在合法相机流形和硬约束内。旋转应使用 $\SO(3)$ geodesic、Lie group
+更新或合法 chart；在 raw 9D pose encoding 上直接线性插值可能产生非单位四元数、
+错误 FoV 或非物理中间状态。
+
+\subsection{理论相对阈值与实验绝对阈值}
+
+令
+\begin{equation}
+  E^*_{I,C}=\inf_{T\in\Mspace_C}E_{I,C}(T),
+\end{equation}
+理论上可定义
+\begin{equation}
+  \widetilde{\Sset}_\epsilon(I,C)
+  =\{T\in\Mspace_C:E_{I,C}(T)\le E^*_{I,C}+\epsilon\}.
+  \label{eq:prequotient-sublevel}
+\end{equation}
+但高维问题通常不知道 $E^*$。实验必须预注册有物理/统计含义的绝对阈值 $h$，
+直接研究
+\begin{equation}
+  \widetilde{\Sset}_h(I,C)
+  =\{T\in\Mspace_C:E_{I,C}(T)\le h\}.
+  \label{eq:absolute-sublevel}
+\end{equation}
+同时维护有效界
+\begin{equation}
+  L^*\le E^*\le U^*,\qquad
+  \epsilon=h-E^*\in[h-U^*,\,h-L^*],
+\end{equation}
+其中 $U^*$ 来自最好 incumbent，$L^*$ 来自松弛或可认证下界。令
+$m_{\rm eval}$ 为重复评价/数值误差，$m_{\rm opt}=U^*-L^*$，并保守取
+$m_{\rm tot}=m_{\rm eval}+m_{\rm opt}$。绝对 $h$-sublevel 声称至少使用
+$m_{\rm eval}$；换算相对近最优结论使用 $m_{\rm tot}$。落在
+$[h-m,h+m]$ 的候选进入灰区，不参加强拓扑结论。$h$、上下界、能量归一化和
+余量必须事前写入 objective card。
+
+\section{Gauge 与商空间}
+
+\subsection{结构性坐标冗余}
+
+若群 $G_C$ 对联合状态满足
+\begin{equation}
+  F_C(g\!\cdot\!(T,Z))=F_C(T,Z),\qquad
+  \ell_{I,C}(g\!\cdot\!(T,Z))=\ell_{I,C}(T,Z),
+\end{equation}
+则同一群轨道表示同一物理状态。经典 BA gauge 和 projective ambiguity 可参见
+\citet{triggs2000bundle}、\citet{hartley1994projective} 与
+\citet{hartley2004multiple}。
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.39\textwidth}
+>{\centering\arraybackslash}p{0.18\textwidth}X}
+\toprule
+设置 & 典型 gauge & 备注\\
+\midrule
+标定单目，轨迹与场景联合未知，无尺度/世界锚点
+  & $\Sim^{+}(3)$ & 3 平移、3 旋转、1 尺度\\
+已知度量尺度但无世界坐标锚点
+  & $\SE(3)$ & scale 被外部信息破除\\
+固定度量地图或完整绝对锚点
+  & 平凡群/更小子群 & 不能机械减 7 DoF\\
+未标定 projective SfM
+  & $\PGL(4)$ & 状态不再是纯 $\SE(3)^N$\\
+测量图有 $K$ 个不耦合连通块
+  & 可能为 $G^K$ & 每块有独立坐标自由度\\
+\bottomrule
+\end{tabularx}
+\caption{Gauge 必须由传感器、锚点和状态定义决定。}
+\end{table}
+
+重复纹理、镜像、对象置换、critical motion\citep{sturm1997critical} 或某幅图像
+的特殊对称通常是数据相关歧义，不应自动作为 gauge 除掉。critical configurations
+正是在去除通常的 projective gauge 后仍存在不等价重建\citep{hartley2007critical}。
+
+\subsection{Quotient 与轨迹距离}
+
+只有当联合作用可写成
+$g\!\cdot\!(T,Z)=(g\!\cdot T,g\!\cdot Z)$、保持 $\Mspace_C$ 与
+$\mathcal Z_C$，并诱导出 $E_{I,C}(g\!\cdot T)=E_{I,C}(T)$ 时，才定义轨迹商
+\begin{equation}
+  \Qspace_C=\Mspace_C/G_C,
+  \qquad
+  \Sset_h(I,C)=\widetilde{\Sset}_h(I,C)/G_C.
+\end{equation}
+若作用不能只依赖 $T$，必须商联合可行状态，不能直接写 $\Mspace_C/G_C$。以下
+默认 $\Mspace_C$ 是正则流形，或明确限制到正则 active stratum。
+
+若 $d_{\Tspace}$ 对 $G_C$ 等距不变、作用 proper 且轨道闭，才可定义代表元无关的
+quotient metric
+\begin{equation}
+  d_Q([T],[T'])=\inf_{g\in G_C}d_{\Tspace}(T,g\!\cdot T').
+  \label{eq:quotient-distance}
+\end{equation}
+$d_{\Tspace}$ 必须规定旋转 geodesic、平移尺度、时间加权与缺帧处理。普通平移
+欧氏距离不对 $\Sim(3)$ 的尺度作用不变；上述条件不满足时只能报告预注册的
+alignment discrepancy $d_{\rm align}$，不能称内禀 metric/diameter。固定首帧和
+尺度若只是选择 representative，也不能在 gauge-fixed 空间再次减同一自由度。
+
+若 $\Mspace_C$ 是流形且群作用光滑、自由并 proper，则 $\Qspace_C$ 是流形，
+\begin{equation}
+  \dim\Qspace_C=\dim\Mspace_C-\dim G_C.
+\end{equation}
+该商流形定理与维数公式可见\citet{lee2013smooth}。存在非平凡稳定子时，定理及
+维数公式不再直接适用；本文只在另行指定的正则层上使用局部流形论。
+
+\subsection{表示冗余不是物理解分支}
+
+四元数 $q$ 与 $-q$ 表示同一旋转；非单位 raw quaternion 是非法状态；Euler 角
+周期和奇点是 chart 问题；VGGT 的 4 次 refinement 是迭代状态。聚类和路径检验
+必须在物理空间或正确 quotient 上完成，而不是直接对 raw 9D encoding 作欧氏聚类。
+
+\section{精确解集、最优集与子水平集合}
+
+\subsection{四个不同对象}
+
+仅有标量能量 gauge-invariant 不足以推出 residual 能下降到 quotient。以下假定
+$\bar r:\Qspace_C\to\mathbb R^m$ 已合法定义，且 $\bar E=\|\bar r\|^2$；否则
+命题应在 joint state 或 gauge-fixed representative 上陈述。必须区分
+\begin{align}
+  \mathcal Z_0 &= \{q:\bar r(q)=0\}, &&\text{精确 residual fiber},\\
+  \Mspace^* &= \argmin_q\bar E(q), &&\text{全局最优集},\\
+  \Sset_\epsilon &= \{q:\bar E(q)\le E^*+\epsilon\},
+    &&\text{理论相对子水平集},\\
+  \Sset_h &= \{q:\bar E(q)\le h\},
+    &&\text{实验绝对子水平集}.
+\end{align}
+真实有噪图像下 $\mathcal Z_0$ 可能为空，而 $\Mspace^*$ 仍可能非空；其非空要求
+infimum 被取得，通常需紧性、coercivity 或其他 attainment 条件。只有
+$\Mspace^*\ne\varnothing$ 时，正容差集合才可称为最优集的增厚；无论如何，厚度
+本身不是物理连续冗余。
+
+\subsection{命题 A：局部 exact fiber 的维数}
+
+若 $q_*\in\mathcal Z_0$，$\Qspace_C$ 在 $q_*$ 附近是 $d$ 维流形，$\bar r$ 已合法
+下降到 quotient、为 $C^1$，且
+$D\bar r$ 在邻域恒秩 $\rho$，则常秩定理给出
+\begin{equation}
+  \dim_{q_*}\mathcal Z_0=d-\rho,
+  \qquad T_{q_*}\mathcal Z_0=\ker D\bar r(q_*).
+  \label{eq:fiber-dimension}
+\end{equation}
+只有在去 gauge、约束正则、残差光滑且邻域常秩时，Jacobian nullity 才能解释
+为 exact fiber 的局部连续非可辨识维数。单点小奇异值不够：$r(x)=x^2$ 在
+$x=0$ 的 Jacobian 为零，但零集仍是孤立点。
+
+\subsection{命题 B：正容差集合通常满维}
+
+若 $\bar E$ 连续且 $\bar E(q)<h$，严格子水平集的开放性保证 $q$ 周围存在开邻域
+仍属于 $\Sset_h$。因此在 $d$ 维正则层上的每个严格可行点处，$\Sset_h$ 都局部
+满维；取 $h=E^*+\epsilon$ 时相对版本相同。
+
+例如 $E(x,y)=(x^2+y^2-1)^2$ 的精确最优集是 1 维圆；$0<\epsilon<1$ 时
+相对子水平集是 2 维圆环，$\epsilon\ge1$ 时则是圆盘。故本文不说
+“$\Sset_\epsilon$ 是低维流形”，而说 exact minimizer/fiber 可能低维，或近最优
+厚集合在给定尺度上具有低维骨架、弱方向或细管结构。
+
+\subsection{命题 C：闭性、紧性与解存在}
+
+连续 $\bar E$ 使 $\Sset_h$ 闭，但闭不等于紧。若 quotient 后仍可逃向无穷，
+直径可能无限且最优值未必取得。需要 coercivity、properness 或显式有界物理域
+才能保证近最优集合紧和 infimum 取得。
+
+\section{四量描述与阈值持久性}
+
+\subsection{商空间直径}
+
+\begin{equation}
+  D_h=\sup_{a,b\in\Sset_h}d_Q(a,b).
+  \label{eq:diameter}
+\end{equation}
+给定有实际意义的阈值 $\delta$，只有 $D_h\le\delta$ 才能称
+$\delta$-近似唯一。找到一对有能量余量且距离大于 $\delta$ 的候选足以反证；
+多启动未找到第二解不能证明唯一。
+
+\subsection{道路连通分量数}
+
+\begin{equation}
+  \beta_0(\Sset_h)
+  =\#\pi_0^{\mathrm{path}}(\Sset_h).
+\end{equation}
+有限样本 cluster、UMAP 空隙或优化终点簇不是 $\beta_0$ 的直接估计。本文明确
+研究合法连续变形的 path components。
+
+\subsection{Minimax 能垒}
+
+对 $a,b\in\Sset_h$ 定义绝对 minimax 高度
+\begin{equation}
+  H(a,b)=\inf_{\substack{\gamma(0)=a\\\gamma(1)=b}}
+  \sup_{t\in[0,1]}\bar E(\gamma(t)),
+  \label{eq:barrier}
+\end{equation}
+其中 $\gamma$ 是合法路径，且每个 waypoint 一致处理 nuisance variables。正式
+barrier family 为
+\begin{equation}
+  \mathcal H_{h,\delta}
+  =\{H(a,b):a,b\in\Sset_h,\ d_Q(a,b)\ge\delta\}.
+\end{equation}
+对有限注册候选，报告所有成对 $H(a_i,a_j)$ 及各自的上下界 $H_L,H_U$。若构造
+路径满足 $\sup_t\bar E(\gamma(t))\le h-m$，可确认该对同分量；
+认证 $H_L>h+m$ 才足以确认断开。$H<h$ 可推出存在低能路径，$H>h$ 可推出断开，
+但 $H=h$ 在 infimum 不取到时未决。绝对集合取 $m=m_{\rm eval}$，相对近最优
+结论取 $m=m_{\rm tot}$。路径只给上界；搜索失败或候选图缺边均不是 barrier
+下界。只有 $E^*$ 已知或界足够紧时，才写 $B(a,b)=H(a,b)-E^*$。
+
+\subsection{局部弱可辨识维数}
+
+在 quotient 上的局部最优点，以加权 Jacobian 小奇异值或 generalized Hessian
+小特征值定义
+\begin{equation}
+  k_{\mathrm{weak}}(q;\tau)
+  =\#\{i:\lambda_i(H_Q(q))\le\tau\}.
+  \label{eq:weak-dim}
+\end{equation}
+$\tau$ 必须相对于单位、噪声和轨迹度量预注册。小特征值只是候选弱方向，还需
+perturb--refit、profile energy 和 continuation 检查能否积成真实路径。
+
+\subsection{阈值持久性}
+
+应扫描 $h$，记录 component birth/merge、直径变化与能垒临界值。只有获得全局
+子水平拓扑或可认证 barrier 关系时，才称 0 维 persistence / merge tree
+\citep{edelsbrunner2010computational}；有限候选和已找到路径只能形成经验候选
+merge graph，图中缺边没有下界含义。若 $E$ proper Morse，或所扫 interlevel band
+紧，拓扑才只在临界值处变化；非紧空间还可能从无穷远发生变化。
+
+\subsection{结果标签与建模倾向}
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.23\textwidth}XX}
+\toprule
+标签 & 最低证据 & 建模倾向\\
+\midrule
+Quotient 后近似唯一
+  & 小 $D_h$，无额外稳定弱方向证据
+  & 确定性点估计与局部校准\\
+连通近最优歧义
+  & 远距离可行端点与完整低能路径
+  & 连续 latent、低秩或 manifold uncertainty\\
+经验分离候选区域
+  & 多个远距离可行簇，尚无桥或 barrier 证书
+  & 继续能垒检验，不急于称 branch\\
+认证的断开分量
+  & minimax barrier 下界越过阈值
+  & mixture、离散 latent、分层生成\\
+混合结构
+  & 多分量且每个分量有弱方向
+  & 离散 branch 加分支内连续 latent\\
+模型失配
+  & 好坏由错误深度、动态或内参补偿
+  & 先修观测模型和能量\\
+\bottomrule
+\end{tabularx}
+\caption{标签仅用于沟通，不是互斥分类。正式结论仍是四量。}
+\end{table}
+
+\section{六类多样性必须分开}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.16\textwidth}
+>{\raggedright\arraybackslash}p{0.22\textwidth}
+>{\raggedright\arraybackslash}p{0.245\textwidth}
+>{\raggedright\arraybackslash}p{0.245\textwidth}}
+\toprule
+名称 & 数学对象 & 可以说明 & 不能说明\\
+\midrule
+\endfirsthead
+\toprule
+名称 & 数学对象 & 可以说明 & 不能说明\\
+\midrule
+\endhead
+Gauge 非唯一性 & 群轨道 $G\cdot T$ & 多个参数代表同一物理状态 & 物理多解\\
+局部连续非可辨识 & Quotient 后 exact fiber 的曲线/流形 & 固定条件存在连续物理解族 & 全局连通或 prevalence\\
+断开可行分量 & $\pi_0^{\rm path}(\Sset_h)$ & 跨分量路径必越阈值 & Posterior 有几个 mode\\
+优化 basin & 特定算法动力系统的吸引域 & 求解器对初始化的依赖 & 解集拓扑\\
+Posterior mode & 指定先验、似然和参考测度后的密度峰 & 概率质量局部峰 & Support/component 数\\
+算法输出多样性 & $\Law(A(I,C,U))$ & 某算法经验采样行为 & 完整可行集或真实 posterior\\
+\bottomrule
+\end{longtable}
+
+mode 依赖先验、温度和参考测度；连通空间上的密度可有多个峰。反之，一个低质量
+分量也可能几乎没有 posterior mass。拓扑与概率都需要研究，但不能互换。
+
+\section{反例与旧观察的证据审计}
+
+\subsection{四个最小反例}
+
+\begin{enumerate}
+  \item $E(x)=x^2$：唯一最小点，但任意 $\epsilon>0$ 的子水平集是连续区间。
+  \item $E(x)=(x^2-1)^2$：梯度流有两个 basin；$\epsilon<1$ 时断开，
+        $\epsilon\ge1$ 时连通。
+  \item $E(x,y)=(x^2+y^2-1)^2$：精确最优集是圆；$0<\epsilon<1$ 时
+        正容差集合是满二维圆环，$\epsilon\ge1$ 时是圆盘。
+  \item $E(x,y,z)=(x^2+y^2-1)^2+(z^2-1)^2$：小阈值下有两个断开分量，
+        每个分量内部又有连续圆形最优族。
+\end{enumerate}
+唯一性、局部维数、basin 数、mode 数和 component 数由此成为不同轴。
+
+\subsection{Long-vs-short 不回答固定条件拓扑}
+
+长度 $N$ 与 $M$ 的问题位于 $\SE(3)^N$ 和 $\SE(3)^M$，输入、约束数、维数和
+损失标度都改变。差异可能来自条件信息、图连通性、累计误差、数值条件数、模型
+上下文敏感性、显存策略或遮挡比例。把长序列解投影到共同帧可研究 context
+sensitivity，但仍不能证明任一固定 $I$ 有多个可接受解。因此问题不是简单把
+长度差拉大，而是 long-vs-short 原本测的就不是本报告的拓扑对象。
+
+\subsection{随机输出与 optimizer basin 的证据上限}
+
+固定 $I,C$ 后的随机输出若经同一个独立 $E$ 验证为可行，远距离候选可反证
+近似唯一；但输出簇可能是 gauge copy、表示伪影或未采到低能桥，模型也可能漏掉
+真实 component。若生成器同时定义验收能量，还会循环论证。
+
+多个 optimizer basin 同样不够。$E(x)=(x^2-1)^2$ 的正负初始化分别收敛到
+$\pm1$，但阈值跨过中央鞍点后子水平集已经连通。basin 数随算法、步长和参数化
+改变，而 $\Sset_h$ 的拓扑不应依赖求解器。
+
+\section{MSE、Diffusion 与 Flow Matching 的能力边界}
+
+\subsection{MSE 的准确结论}
+
+在欧氏平方损失和总体最优条件下，确定性回归给出条件均值。若固定条件下解以
+相同概率取 $Y=-1$ 与 $Y=1$，有效能量为 $E(y)=(y^2-1)^2$，则 MSE 解为 $0$，
+但 $E(0)=1$。当条件分布跨越非凸有效集时，条件均值可能无效。
+
+不过，不能推出任何有限网络必然 averaging：有限模型可能 mode-select，损失
+也可定义 intrinsic mean。对旋转，raw 坐标平均甚至会离开 $\SO(3)$。该反例是
+风险证明，不是对具体 VGGT 的既成结论。
+
+\subsection{Diffusion 与 score model}
+
+Diffusion 和 score-based 方法通过随机反向过程或 score 场建模分布
+\citep{sohldickstein2015deep,ho2020denoising,song2021score}。它们相对单点 MSE
+原则上能输出多个候选，但分布表达能力不保证：所有物理 component 被训练数据
+覆盖、样本经过 gauge 处理并满足几何约束、小概率 component 不被丢弃、条件
+信息区分真实歧义与标注噪声，或多样性等同于有效覆盖。
+
+\subsection{Flow Matching 的拓扑提醒}
+
+Flow Matching 训练连续归一化流向量场，采样时积分 ODE\citep{lipman2023flow}。
+对每个固定条件，若这是同维确定性 ODE，向量场对状态局部 Lipschitz，且解在
+正、反时间区间都完备，则时间流映射是 homeomorphism；向量场为 $C^1$ 时才是
+diffeomorphism。连通 base support 的连续像及闭包仍连通，故正则可逆 ODE flow
+不能精确产生字面断开的 support；它可用极低密度桥逼近分离模式。
+
+Gaussian base 经全局 $\mathbb R^d$ 微分同胚后仍有全空间 support，实践中的
+“离散分支”更常对应高能/低密度谷，而非严格概率 support 断开。离散 branch、
+奇异端点、拒绝采样或非连续后处理不在上述定理内。这不等于 FM 无法建模多峰，
+而要求区分可行集分量、posterior 密度峰、低概率桥与有限采样覆盖。
+
+因此“FM 理论上可表示，所以有限数据下一定学会”与“FM 连续，所以完全不能
+表示多峰”都过强。应评估 component-aware coverage、constraint validity 和
+held-out calibration。
+
+\subsection{显式 branch variable 的启动条件}
+
+只有固定条件下出现多个远距离有效候选，且跨候选最低可验证能垒稳定高于预注册
+阈值，显式离散 latent、mixture-of-experts 或分层 sampler 才有直接证据。若只有
+单一连接弱方向，连续 latent、低秩协方差、manifold sampler 或局部 profile 更
+自然；若近似唯一，deterministic head 加校准可能足够。
+
+\section{可证伪假设与证据等级}
+
+设 $m_{\rm eval}$ 为能量评价余量，$m_{\rm opt}=U^*-L^*$，并令
+$m_{\rm tot}=m_{\rm eval}+m_{\rm opt}$；$\delta$ 为下游有意义且大于重复噪声的
+轨迹差阈值。下表对相对近最优结论保守使用 $m_{\rm tot}$；若只声称绝对
+$\Sset_h$ 的结构，则替换为 $m_{\rm eval}$。
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.20\textwidth}
+>{\raggedright\arraybackslash}p{0.28\textwidth}X}
+\toprule
+声称 & 操作定义 & 确认或反证证据\\
+\midrule
+$\delta$-近似唯一
+  & $D_h\le\delta$
+  & 两个满足 $E\le h-m_{\rm tot}$ 且 $d_Q>\delta$ 的点足以反证；确认需要全局覆盖或证书\\
+连通近最优歧义
+  & 远端点间有完整合法低能路径
+  & 构造路径的认证上界 $H_U\le h-m_{\rm tot}$ 可确认该对同分量\\
+断开可行分量
+  & 两候选属于 $\Sset_h$ 的不同道路分量
+  & 一条低能路径立即反证；确认需要 minimax 高度下界 $H_L>h+m_{\rm tot}$\\
+精确连续非可辨识
+  & Quotient 后 exact fiber 正维
+  & 邻域常秩和 continuation 保持 exact residual；单点小特征值不够\\
+弱可辨识方向
+  & 稳定小曲率和大 profile 范围
+  & 改变单位或轻微扰动后消失会反证稳健性\\
+目标数据上普遍
+  & 发生比例超过预注册 $p_*$
+  & 分层场景置信区间；挑选案例不能确认\\
+\bottomrule
+\end{tabularx}
+\caption{证据等级与直接反证条件。}
+\end{table}
+
+证据具有不对称性：一个远距离可行对足以否定近似唯一；一条完整低能路径足以
+证明该对同分量；没找到远解不能证明唯一；路径搜索失败不能证明断开。
+
+\section{递进研究路线与 Go/No-go}
+
+\subsection{Stage 0：理论与协议冻结（当前分支）}
+
+交付本文、符号表、gauge/能量 contract、候选结论语言和停止规则。
+
+\textbf{Go：}团队对 $(I,C)$、状态、nuisance、$G_C$、$d_Q$、$E$、$h$、
+$L^*,U^*$、$m_{\rm eval},m_{\rm opt},m_{\rm tot}$、$\delta$ 与灰区处置达成
+书面一致。
+
+\textbf{No-go：}对象可在看结果后改变，或旧结果被当作新命题证明。
+
+\subsection{Stage 1：能量验证与解析/合成控制}
+
+至少构造唯一良态、exact 连续歧义、有限离散对称解、多分量且分量内连续，以及
+gauge/表示副本五类控制。验证 gauge invariance、阈值重复性、候选排序、合法
+路径和已知拓扑检出率。
+
+\textbf{Go：}解析控制全部正确，随机合成控制达到预注册检出率（建议至少 95\%）。
+
+\textbf{No-go：}gauge 副本无法对齐；同一点能量波动跨阈值；或在已知应唯一且
+观测模型覆盖真值的控制中，错误 pose 仍能靠协议明确禁止的 nuisance 补偿而
+同分。若 nuisance 合法且控制未保证唯一，这可能是真实 non-identifiability 或
+模型失配证据，不能一概判成管线失败。
+
+\subsection{Stage 2：固定实例局部几何}
+
+在同一 $(I,C)$ 上联合优化或一致 profile $Z$；去 gauge 后计算 Jacobian spectrum/
+generalized Hessian；沿小曲率方向 perturb--refit；用 continuation 检查一级
+null direction；并在邻域检查秩稳定。
+
+\textbf{Go：}弱方向在多参数化、多微扰尺度和独立 residual 分解下稳定。
+
+\subsection{Stage 3：全局候选与能垒}
+
+结合多启动、多求解器、对称初始化和弱方向 continuation。VGGT 或生成模型仅作
+proposal，统一由独立 $E$ 重评。Quotient alignment 后组织候选；对远候选使用
+geodesic interpolation、string/elastic-band/NEB 类路径优化；自适应加密 waypoint，
+一致重优化 nuisance，并扫描 $h$。有限候选与已找到路径只形成经验候选 merge
+graph；全局拓扑或 barrier 关系被认证后才报告 component merge tree。
+
+最低可写表述：找到远距离有效对，可写“近似唯一被反证”；找到完整低能路径，
+可写“该候选对同一道路分量”；只有路径优化失败，只能写“经验分离候选区域”；
+获得可靠 barrier 下界，才写“断开可行分量”。
+
+\subsection{Stage 4：跨实例 prevalence 与模型选择}
+
+在预注册场景层上重复 Stage 2--3，报告发生比例和置信区间。只有歧义 prevalence
+达到业务阈值，且多假设模型在 held-out 有效覆盖、校准或下游 regret 上有收益，
+才进入正式训练。
+
+\begin{figure}[htbp]
+\centering
+\resizebox{0.98\textwidth}{!}{%
+\begin{tikzpicture}[
+  node distance=7mm and 9mm,
+  box/.style={draw=AccentBlue,rounded corners,fill=PaleBlue,align=center,
+              minimum height=8mm,text width=3.25cm,font=\small},
+  decision/.style={draw=AccentOrange,diamond,aspect=2,fill=PaleOrange,
+                   align=center,font=\small,inner sep=1.5pt},
+  result/.style={draw=AccentGreen,rounded corners,fill=PaleGreen,align=center,
+                 minimum height=8mm,text width=3.2cm,font=\small},
+  arrow/.style={-{Latex[length=2mm]},thick,draw=DarkGray}
+]
+  \node[box] (freeze) {冻结 $I,C,E,G,h$\\bounds, margins, $\delta$};
+  \node[box,right=of freeze] (control) {解析/合成控制通过};
+  \node[box,right=of control] (local) {固定实例局部谱与 continuation};
+  \node[box,below=of local] (global) {远候选与路径能垒};
+  \node[decision,left=14mm of global] (evidence) {证据形态};
+  \node[result,below left=11mm and 17mm of evidence] (det) {小直径\\确定性估计 + 校准};
+  \node[result,below=11mm of evidence] (cont) {连接弱方向\\连续/低秩 latent};
+  \node[result,below right=11mm and 17mm of evidence] (mix) {稳定高能垒\\mixture / 离散 latent};
+  \node[result,right=12mm of mix] (fix) {Nuisance 补偿\\先修 $E$ 与观测模型};
+
+  \draw[arrow] (freeze) -- (control);
+  \draw[arrow] (control) -- (local);
+  \draw[arrow] (local) -- (global);
+  \draw[arrow] (global) -- (evidence);
+  \draw[arrow] (evidence) -- (det);
+  \draw[arrow] (evidence) -- (cont);
+  \draw[arrow] (evidence) -- (mix);
+  \draw[arrow] (evidence.east) -| (fix.north);
+\end{tikzpicture}
+}
+\caption{从理论合同到模型选择的证据门。模型是最后一个决策节点。}
+\end{figure}
+
+\section{三人递进分工}
+
+三部分不是平行堆结果，而是具有明确依赖的证据链。
+
+\subsection{Part A：数学对象、Gauge 与合成真值（负责人 A）}
+
+\textbf{任务：}冻结状态空间、群作用、quotient metric 和合法路径；写出 exact
+fiber、最优集、子水平集和四量定义；实现 gauge/representation 正负控制；建立
+四类解析/合成已知拓扑案例；标明定理与数值证据边界。
+
+\textbf{交付：}\texttt{formal\_contract}、合成真值规范、gauge 单元测试、术语
+审查表。
+
+\textbf{完成门槛：}B、C 能无歧义调用同一 $G_C$、$d_Q$ 和路径定义。
+
+\subsection{Part B：独立能量、数据冻结与阈值校准（负责人 B）}
+
+\textbf{任务：}设计不与候选生成器循环同源的 $E$；明确 nuisance 是联合、
+profile 还是 marginal；建立 fixed-condition manifest 和 hash；分解 reprojection、
+cheirality、depth/point consistency 与动态 mask residual；预注册 $h$ 与灰区，
+维护 $L^*\le E^*\le U^*$，估计 $m_{\rm eval},m_{\rm opt},m_{\rm tot}$ 并预注册
+$\delta$；检查错误 pose 是否能被 nuisance 补偿。
+
+\textbf{交付：}\texttt{objective\_card}、manifest schema、阈值校准报告和独立
+验收接口。
+
+\textbf{完成门槛：}解析/合成控制中的好解、坏解和已知路径被稳定排序。
+
+\subsection{Part C：候选发现、连通性与模型决策（负责人 C）}
+
+\textbf{任务：}同一 $(I,C)$ 上多启动/多 proposal；quotient alignment 与距离矩阵
+只用于候选组织；运行 continuation、string/NEB、minimax path 和 $h$-persistence；
+区分上界、下界与搜索失败；跨实例报告 prevalence；根据证据填模型选择矩阵。
+
+\textbf{交付：}候选注册表、路径证书/失败日志、经验候选 merge graph；只有获得
+认证时才交付 merge tree；以及模型决策 memo。
+
+\textbf{完成门槛：}任何 branch/component 表述都可追溯到固定条件、独立能量、
+gauge 对齐和能垒证据。
+
+\begin{center}
+\fcolorbox{AccentBlue}{PaleBlue}{\parbox{0.82\textwidth}{\centering
+Part A 锁定数学 contract
+$\longrightarrow$ Part B 锁定 $E$、nuisance 与阈值
+$\longrightarrow$ A+B 共同通过控制 Go gate
+$\longrightarrow$ Part C 搜索候选并检验路径
+$\longrightarrow$ 三方共同决定是否需要生成式建模。}}
+\end{center}
+
+正式数值实验和训练统一放在 H20；本机只承担文档、静态检查和 PDF 构建，不把
+CPU smoke 设置为正式研究门槛。
+
+\section{停止规则与安全结论语言}
+
+若输入、mask、帧序、内参或损失未冻结；gauge invariance 测试失败；同一点能量
+噪声大于候选能垒；$h$、余量或 $\delta$ 事后选择；路径离开 $\SE(3)$ 或未一致优化 nuisance；
+生成器与评价器同源；只凭二维图、采样空隙或 basin；单实例却声称普遍；或静态
+针孔模型被动态/rolling shutter/未知内参破坏，应停止拓扑结论并回到协议层。
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.28\textwidth}XX}
+\toprule
+证据 & 可以说 & 不可以说\\
+\midrule
+搜索预算内只有一个解 & 未发现远距离可行候选 & 解唯一\\
+找到两个远距离可行解 & 近似唯一被反证 & 存在离散分支\\
+找到低能完整路径 & 该候选对同分量 & 整个集合只有一个分量\\
+多种路径优化都失败 & 经验分离候选区域 & 严格断开\\
+Barrier 有可靠下界 & 给定阈值下断开 & 所有阈值下永久断开\\
+Hessian 有小特征值 & 候选弱方向 & 存在连续解流形\\
+\bottomrule
+\end{tabularx}
+\caption{推荐的证据语言。}
+\end{table}
+
+\section{本理论阶段验收清单}
+
+\begin{itemize}[label=$\square$]
+  \checkeditem 新分支从 \texttt{origin/main} 继承，命名与旧实验线分离；
+  \checkeditem 明确 Camera Head 是确定性迭代估计器；
+  \checkeditem 定义固定条件、状态、nuisance、硬约束和 profile energy；
+  \checkeditem 根据传感器和锚点选择 gauge，而不是写死 $\Sim(3)$；
+  \checkeditem 区分 exact fiber、argmin 和正容差 sublevel；
+  \checkeditem 用四量替代错误的互斥三分类；
+  \checkeditem 区分 component、mode、basin 与算法输出；
+  \checkeditem 给出 MSE、Diffusion 和 FM 的有限结论；
+  \checkeditem 给出可证伪假设、证据不对称和停止规则；
+  \checkeditem 将后续工作递进地分给三位负责人；
+  \item Stage 1 能量与合成控制实现；
+  \item Stage 2 固定实例局部实验；
+  \item Stage 3 路径与能垒实验；
+  \item Stage 4 跨实例复现与模型选择。
+\end{itemize}
+
+\section*{结语}
+\addcontentsline{toc}{section}{结语}
+
+本分支首先把问题从“哪一种生成模型更好”退回到“固定条件下究竟存在什么解”。
+只有先测清楚 quotient 后的直径、局部弱方向、道路分量与能垒，才能判断 VGGT
+需要的是更好的确定性校准、连续不确定性、离散 mixture，还是先修正几何评价
+本身。这份报告的价值不是给出一个过早答案，而是规定什么证据足以改变答案。
+
+\bibliographystyle{plainnat}
+\bibliography{doc/camera_solution_space_01_theory_foundation/references}
+
+\end{document}

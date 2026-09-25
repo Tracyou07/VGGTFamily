@@ -1,0 +1,60 @@
+test_exact_original_oracle_and_known_transform (test_alignment.AlignmentTest) ... ok
+test_failure_artifact_and_depth_point_consistency (test_alignment.AlignmentTest) ... ok
+test_invalid_inputs_stop (test_alignment.AlignmentTest) ... ok
+test_no_gt_interface_and_vendor_hash (test_alignment.AlignmentTest) ... ok
+test_outliers_and_frame_id_order (test_alignment.AlignmentTest) ... ok
+test_stitch_ownership_scale_rotation_composition (test_alignment.AlignmentTest) ... ok
+test_bf16_scatter (test_attention.AttentionTest) ... ok
+test_dense_equivalence_and_no_mask (test_attention.AttentionTest) ... ok
+test_gradient_topology (test_attention.AttentionTest) ... ok
+test_relay_after_local_frame (test_attention.AttentionTest) ... ok
+test_scope_validation (test_attention.AttentionTest) ... ok
+test_single_window_and_order (test_attention.AttentionTest) ... ok
+test_camera_exchange_runs_and_input_contract (test_model.ModelTest) ... ok
+test_original_heads_and_cache_capture (test_model.ModelTest) ... /home/ubuntu/yjh/feedforwardreconstruct/ours_v5/vggt/models/vggt.py:65: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=False):
+ok
+test_all_new_modules_compile (test_runtime.RuntimeTest) ... ok
+test_compare_requires_complete_matching_artifacts (test_runtime.RuntimeTest) ... ok
+test_gate_seal_requires_all_passed_reports_and_identity (test_runtime.RuntimeTest) ... ok
+test_no_overwrite (test_runtime.RuntimeTest) ... ok
+test_preflight_rejects_busy_gpu_and_low_disk (test_runtime.RuntimeTest) ... ok
+test_prepare_missing_fixed_list_stops (test_runtime.RuntimeTest) ... ok
+test_groups_order_tail_and_frozen (test_scheduler.SchedulerTest) ... ok
+test_independent_matches_original_all_caches (test_scheduler.SchedulerTest) ... ok
+test_initialization_reference_and_independent_instances (test_scheduler.SchedulerTest) ... ok
+test_scene_calls_do_not_share_state (test_scheduler.SchedulerTest) ... ok
+test_single_window (test_scheduler.SchedulerTest) ... ok
+test_windows (test_scheduler.SchedulerTest) ... ok
+test_cpu_artifact_smoke (test_worker.WorkerTest) ... ok
+
+----------------------------------------------------------------------
+Ran 27 tests in 3.221s
+
+OK
+The number of corresponding points matched: 192
+Residuals: 2.883942045173171e-07
+Residuals: 1.8538021606673283e-07
+Alignment error statistics [using 192 points]: mean=0.0000, std=0.0000, median=0.0000, max=0.0000
+Mean error: 1.8521988920383592e-07
+The number of corresponding points matched: 192
+Residuals: 2.883942045173171e-07
+Residuals: 1.8538021606673283e-07
+Alignment error statistics [using 192 points]: mean=0.0000, std=0.0000, median=0.0000, max=0.0000
+Mean error: 1.8521988920383592e-07
+The number of corresponding points matched: 192
+Residuals: 0.09713691473007202
+Residuals: 0.03195357695221901
+Residuals: 0.03183670714497566
+Residuals: 0.03183664381504059
+Alignment error statistics [using 192 points]: mean=0.0318, std=0.4236, median=0.0011, max=5.8854
+Mean error: 0.03183663636445999
+The number of corresponding points matched: 128
+Residuals: 1.7092034454435634e-07
+Residuals: 1.6101239452837035e-07
+Alignment error statistics [using 128 points]: mean=0.0000, std=0.0000, median=0.0000, max=0.0000
+Mean error: 1.652227865633904e-07
+The number of corresponding points matched: 128
+Residuals: 1.6332153052189824e-07
+Alignment error statistics [using 128 points]: mean=0.0000, std=0.0000, median=0.0000, max=0.0000
+Mean error: 1.7560560650053958e-07

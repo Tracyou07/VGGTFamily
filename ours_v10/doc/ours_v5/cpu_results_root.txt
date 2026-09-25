@@ -1,0 +1,13 @@
+test_allowlist_is_exact_and_excludes_non_result_roots (test_migrate_results_root.ResultsRootMigrationTest) ... ok
+test_any_conflict_aborts_before_an_unrelated_root_moves (test_migrate_results_root.ResultsRootMigrationTest) ... ok
+test_dry_run_reports_actions_without_changing_filesystem (test_migrate_results_root.ResultsRootMigrationTest) ... ok
+test_moves_complete_legacy_root_and_second_run_is_idempotent (test_migrate_results_root.ResultsRootMigrationTest) ... ok
+test_partial_merge_moves_unique_files_and_removes_identical_duplicates (test_migrate_results_root.ResultsRootMigrationTest) ... ok
+test_results_root_cannot_be_nested_inside_a_migrated_root (test_migrate_results_root.ResultsRootMigrationTest) ... ok
+test_wrong_legacy_symlink_is_rejected (test_migrate_results_root.ResultsRootMigrationTest) ... ok
+test_executable_sources_have_no_legacy_experiment_defaults (test_output_paths.CanonicalOutputPathTest) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.011s
+
+OK

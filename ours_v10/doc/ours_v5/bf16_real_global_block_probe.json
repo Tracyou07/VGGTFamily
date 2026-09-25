@@ -1,0 +1,46 @@
+{
+  "gpu": "GPU-83919d3d-cd82-2f1d-fbca-da6d44a8c78d",
+  "layer": 4,
+  "shape": [
+    1,
+    16,
+    31230,
+    64
+  ],
+  "q_dtype": "torch.float32",
+  "v_dtype": "torch.bfloat16",
+  "output_dtype": "torch.bfloat16",
+  "original_vs_saved": {
+    "max_abs": 0.0,
+    "mean_abs": 0.0,
+    "changed": 0
+  },
+  "block_original_vs_split": {
+    "max_abs": 0.0017321109771728516,
+    "mean_abs": 6.725799028828305e-09,
+    "changed": 8982
+  },
+  "sdpa_whole_vs_split": {
+    "max_abs": 0.001953125,
+    "mean_abs": 6.258058959929258e-09,
+    "changed": 966
+  },
+  "attention_original_vs_split": {
+    "max_abs": 0.00390625,
+    "mean_abs": 5.0782297478235705e-08,
+    "changed": 4251
+  },
+  "full_stride": [
+    31979520,
+    1998720,
+    64,
+    1
+  ],
+  "scatter_stride": [
+    31979520,
+    1998720,
+    64,
+    1
+  ],
+  "full_model_run": false
+}

@@ -6,4 +6,4 @@ The evaluation infrastructure contains reference code from FastVGGT and evo. Pre
 - evo 1.32.0: `eval/scannet/reference/evo-1.32.0/LICENSE` and `SOURCE.json`.
 - ScanNet vendored scoring utilities: consult `eval/scannet/scannet_eval/vendor/fastvggt_eval_utils.py` and the FastVGGT reference notices.
 
-External VGGT-family model code, datasets, and checkpoints are not bundled. Their licenses must be checked separately.
+The source-only `ours_v10/` model snapshot includes VGGT-derived code and a copy of its license at `ours_v10/LICENSE.txt`, plus vendored and reference code retained in that tree. Preserve their original notices and check the applicable terms before redistribution. Datasets and checkpoints are not bundled.

@@ -1,0 +1,24 @@
+{
+  "scene_root": "/data/yjh/share/datasets/ScanNet/prepared_scannet50_v1/scene0150_00",
+  "window_size": 60,
+  "overlap": 30,
+  "diagnostic_frames": 100,
+  "base_v4_commit": "17439bd3ee46c8f2aab681fa0fc3baffdb8f1dd0",
+  "communication_modes": [
+    "independent",
+    "camera_exchange",
+    "camera_register_exchange"
+  ],
+  "alignment_mode": "vggtlong_overlap",
+  "cpu_offload": false,
+  "checkpoint": "/data/yjh/share/pretrained/VGGT-1B/model.safetensors",
+  "checkpoint_sha256": "f164acf60724910d8fe1578bb499d800850c7bb0948db7555c413f9fbe60467e",
+  "IRLS": {
+    "delta": 0.1,
+    "max_iters": 5,
+    "tol": 1e-09
+  },
+  "base_v5_commit": "bcb4885dc00d90c242accdefbe1c8fc4fa9979f0",
+  "query_chunk_size": 64,
+  "v5_reference_manifest": "/data/yjh/output/vggt/long_compare/20260921T070717Z_long_compare/ours_v5_independent/run_manifest.json"
+}
